@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TradeList")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e0d788eacac5544a62a6cd8b0ba9da6704159aef")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75a9a7e75b93b6389fbe5000cd33413121853177")]
 [assembly: System.Reflection.AssemblyProductAttribute("TradeList")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TradeList")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jKdCSUWs7HE=",
+  "dgSpecHash": "uqYS4lcyzO0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Łukasz\\source\\repos\\TradeList\\TradeList.csproj",
+  "projectFilePath": "C:\\Users\\source\\repos\\TradeList\\TradeList.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Łukasz\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
   ],
