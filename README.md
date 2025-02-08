@@ -1,2 +1,2 @@
 # TradeList
-New Project TradeList- 0.02 version
+New Project- 0.02 version
