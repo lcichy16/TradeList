@@ -1,2 +1,2 @@
 # TradeList
-New Project- 0.02
+New Project-  0.02
