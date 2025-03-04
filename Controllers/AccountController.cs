@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using TradeList.Models;
+using TradeList.Data;
 
 namespace TradeList.Controllers
 {
@@ -25,19 +26,22 @@ namespace TradeList.Controllers
 
         // Przetwarzanie logowania
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
             }
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-            return View();
+            return View(model);
         }
 
         // Logowanie przez Google
@@ -63,6 +67,19 @@ namespace TradeList.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            // Jeżeli użytkownik nie istnieje, utwórz nowego
+            var newUser = new ApplicationUser
+            {
+                UserName = info.Principal.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value,
+                Email = info.Principal.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value
+            };
+            var result = await _userManager.CreateAsync(newUser);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(newUser, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
             ModelState.AddModelError(string.Empty, "Logowanie nie powiodło się.");
             return View(nameof(Login));
         }
@@ -74,17 +91,21 @@ namespace TradeList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string email, string password, string fullname)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var user = new ApplicationUser { FullName = fullname ,UserName = email, Email = email };
-            var result = await _userManager.CreateAsync(user, password);
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = new ApplicationUser { FullName = model.FullName, UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
+
             ModelState.AddModelError(string.Empty, "Nie udało się utworzyć konta.");
-            return View();
+            return View(model);
         }
 
         // Wylogowanie
